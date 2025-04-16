@@ -22,7 +22,6 @@ bg_img = get_base64_img("back.jpg")
 
 st.markdown(f"""
     <style>
-    /* Full screen background */
     .stApp {{
         background-image: url("data:image/png;base64,{bg_img}"); 
         background-size: cover;
@@ -35,23 +34,26 @@ st.markdown(f"""
         padding: 20px;
         border-radius: 10px;
     }}
-
-    /* Custom CSS for Title and Subtitle */
     .title-text {{
         text-align: center;
         font-size: 40px;
-        color: black;  /* Changed to black */
+        color: black;
         font-weight: bold;
         margin-bottom: 10px;
     }}
     .sub-text {{
         text-align: center;
         font-size: 18px;
-        color: blue;  /* Changed to blue */
+        color: black;  /* Changed from blue to black */
         margin-bottom: 20px;
     }}
-    
-    /* Style the WebRTC container */
+    .highlight-blue {{
+        color: black;  /* Changed from blue to black */
+        font-size: 18px;
+        font-weight: 500;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }}
     .webrtc-container {{
         margin-top: 20px;
         display: flex;
@@ -61,8 +63,6 @@ st.markdown(f"""
         border: 2px solid #ccc;
         border-radius: 10px;
     }}
-
-    /* Flexbox to align Start and Stop buttons */
     .button-row {{
         display: flex;
         justify-content: space-evenly;
@@ -155,12 +155,14 @@ class AudioProcessor(AudioProcessorBase):
                 processing_placeholder.error("❌ Feature extraction failed.")
             self.processing = False
 
-# Baby image and heading
+# Heading and Subtitle
 st.markdown("<div class='title-text'>CryML Analyzer</div>", unsafe_allow_html=True)
 st.markdown("<div class='sub-text'>Detect and analyze your baby’s emotions from their cry 🎧</div>", unsafe_allow_html=True)
 
+# Recording instruction
+st.markdown("<div class='highlight-blue'>🎙️ Record an audio to classify the baby's cry. The audio will be stored and processed when you stop recording.</div>", unsafe_allow_html=True)
+
 # WebRTC streamer
-st.markdown("🎙️ Record an audio to classify the baby's cry. The audio will be stored and processed when you stop recording.")
 webrtc_ctx = webrtc_streamer(
     key="audio",
     mode=WebRtcMode.SENDRECV,
@@ -173,7 +175,6 @@ col1, col2 = st.columns(2)
 
 with col1:
     if st.button("▶️ Start Recording"):
-        # Custom logic to start recording (if needed)
         st.write("Recording started...")
 
 with col2:
@@ -181,8 +182,11 @@ with col2:
         if webrtc_ctx.audio_processor is not None:
             webrtc_ctx.audio_processor.stop()
 
+# Upload instruction
+st.markdown("<div class='highlight-blue'>📁 Upload an audio file (wav/mp3)</div>", unsafe_allow_html=True)
+
 # File uploader
-uploaded_file = st.file_uploader("📁 Upload an audio file (wav/mp3)", type=["wav", "mp3"])
+uploaded_file = st.file_uploader("", type=["wav", "mp3"])
 if uploaded_file is not None:
     file_path = "uploaded_audio.wav"
     with open(file_path, "wb") as f:
