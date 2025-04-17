@@ -9,7 +9,7 @@ from av import AudioFrame
 import base64
 
 # Set Streamlit page configuration
-st.set_page_config(page_title="CryML Analyzer", layout="centered")
+st.set_page_config(page_title="Baby Cry Classification", layout="centered")
 
 # Function to encode an image to base64
 def get_base64_img(path):
@@ -44,11 +44,11 @@ st.markdown(f"""
     .sub-text {{
         text-align: center;
         font-size: 18px;
-        color: black;  /* Changed from blue to black */
+        color: black;
         margin-bottom: 20px;
     }}
-    .highlight-blue {{
-        color: black;  /* Changed from blue to black */
+    .highlight-black {{
+        color: black;
         font-size: 18px;
         font-weight: 500;
         margin-top: 10px;
@@ -86,11 +86,11 @@ model = load_model()
 
 # Class labels
 class_labels = {
-    0: 'tired',
-    1: 'hungry',
-    2: 'belly_pain',
-    3: 'burping',
-    4: 'discomfort'
+    4: 'tired',
+    3: 'hungry',
+    0: 'belly_pain',
+    1: 'burping',
+    2: 'discomfort'
 }
 
 # Feature extraction
@@ -156,11 +156,11 @@ class AudioProcessor(AudioProcessorBase):
             self.processing = False
 
 # Heading and Subtitle
-st.markdown("<div class='title-text'>CryML Analyzer</div>", unsafe_allow_html=True)
+st.markdown("<div class='title-text'>Baby Cry Classification</div>", unsafe_allow_html=True)
 st.markdown("<div class='sub-text'>Detect and analyze your baby’s emotions from their cry 🎧</div>", unsafe_allow_html=True)
 
 # Recording instruction
-st.markdown("<div class='highlight-blue'>🎙️ Record an audio to classify the baby's cry. The audio will be stored and processed when you stop recording.</div>", unsafe_allow_html=True)
+st.markdown("<div class='highlight-black'>🎙️ Record an audio to classify the baby's cry. The audio will be stored and processed when you stop recording.</div>", unsafe_allow_html=True)
 
 # WebRTC streamer
 webrtc_ctx = webrtc_streamer(
@@ -183,7 +183,7 @@ with col2:
             webrtc_ctx.audio_processor.stop()
 
 # Upload instruction
-st.markdown("<div class='highlight-blue'>📁 Upload an audio file (wav/mp3)</div>", unsafe_allow_html=True)
+st.markdown("<div class='highlight-black'>📁 Upload an audio file (wav/mp3)</div>", unsafe_allow_html=True)
 
 # File uploader
 uploaded_file = st.file_uploader("", type=["wav", "mp3"])
